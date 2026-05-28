@@ -1,0 +1,93 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum QuoteStatus {
+  REQUESTED
+  PRICING
+  SENT
+  CLIENT_APPROVED
+  CLIENT_REJECTED
+  EXPIRED
+}
+
+model User {
+  id                String   @id @default(cuid())
+  email             String   @unique
+  passwordHash      String
+  name              String
+  role              String
+  active            Boolean  @default(true)
+  marketingConsent  Boolean  @default(false)
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+}
+
+model Product {
+  id               String   @id @default(cuid())
+  slug             String   @unique
+  name             String
+  category         String
+  subcategory      String
+  description      String
+  shortDescription String
+  ingredients      String
+  calories         Int      @default(0)
+  allergens        String   @default("[]")
+  isPopular        Boolean  @default(false)
+  isVegetarian     Boolean  @default(false)
+  isAvailable      Boolean  @default(true)
+  imagePlaceholder String   @default("#C9A07A")
+  imageUrl         String?
+  galleryUrls      String   @default("[]")
+  sortOrder        Int      @default(0)
+  reviewText       String?
+  reviewAuthor     String?
+  reviewRating     Int      @default(5)
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+}
+
+model Quote {
+  id            String      @id @default(cuid())
+  quoteNumber   String      @unique
+  clientId      String?
+  clientName    String
+  clientEmail   String
+  clientPhone   String?
+  deliveryAddress String
+  eventDate     DateTime
+  guestCount    String?
+  budget        String?
+  typeOfService String?
+  eventDetails  String?
+  itemsJson     String      @default("[]")
+  status        QuoteStatus @default(REQUESTED)
+  adminNotes    String?
+  expiresAt     DateTime?
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+
+  @@index([clientEmail, createdAt])
+  @@index([status, createdAt])
+}
+
+model EmailLog {
+  id           String   @id @default(cuid())
+  quoteId      String?
+  eventType    String
+  recipient    String
+  subject      String
+  status       String   @default("sent")
+  errorMessage String?
+  resendId     String?
+  sentAt       DateTime @default(now())
+
+  @@index([quoteId])
+  @@index([recipient, sentAt])
+}
