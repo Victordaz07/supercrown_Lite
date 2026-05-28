@@ -9,12 +9,15 @@ export async function GET(request: Request) {
     searchParams.get("all") === "true" ||
     searchParams.get("includeUnavailable") === "true";
 
-  const products = await prisma.product.findMany({
-    where: includeAll ? {} : { isAvailable: true },
-    orderBy: [{ subcategory: "asc" }, { sortOrder: "asc" }, { name: "asc" }],
-  });
-
-  return NextResponse.json(products);
+  try {
+    const products = await prisma.product.findMany({
+      where: includeAll ? {} : { isAvailable: true },
+      orderBy: [{ subcategory: "asc" }, { sortOrder: "asc" }, { name: "asc" }],
+    });
+    return NextResponse.json(products);
+  } catch {
+    return NextResponse.json([]);
+  }
 }
 
 export async function POST(request: Request) {

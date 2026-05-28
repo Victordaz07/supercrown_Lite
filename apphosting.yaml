@@ -56,7 +56,7 @@ env:
       - RUNTIME
 
   - variable: NEXTAUTH_URL
-    value: https://supercrownlite.web.app
+    value: https://supercrown-lite--supercrownlite.us-east4.hosted.app
     availability:
       - BUILD
       - RUNTIME
