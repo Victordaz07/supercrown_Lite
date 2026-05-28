@@ -1,0 +1,71 @@
+runConfig:
+  runtime: nodejs20
+  minInstances: 0
+  maxInstances: 10
+  concurrency: 80
+  cpu: 1
+  memoryMiB: 512
+
+env:
+  # Firebase public vars (safe en build y runtime)
+  - variable: NEXT_PUBLIC_FIREBASE_API_KEY
+    value: AIzaSyCkP4pUOhuC1TZHRbF6rsuWx1f4m4FKOuw
+    availability:
+      - BUILD
+      - RUNTIME
+
+  - variable: NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN
+    value: supercrownlite.firebaseapp.com
+    availability:
+      - BUILD
+      - RUNTIME
+
+  - variable: NEXT_PUBLIC_FIREBASE_PROJECT_ID
+    value: supercrownlite
+    availability:
+      - BUILD
+      - RUNTIME
+
+  - variable: NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET
+    value: supercrownlite.firebasestorage.app
+    availability:
+      - BUILD
+      - RUNTIME
+
+  - variable: NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID
+    value: "510013225648"
+    availability:
+      - BUILD
+      - RUNTIME
+
+  - variable: NEXT_PUBLIC_FIREBASE_APP_ID
+    value: 1:510013225648:web:6f9ace7ee33faaf06a5975
+    availability:
+      - BUILD
+      - RUNTIME
+
+  - variable: NEXT_PUBLIC_SHOPPING_TEAM_ID
+    value: supercrown-team
+    availability:
+      - BUILD
+      - RUNTIME
+
+  - variable: FIREBASE_PROJECT_ID
+    value: supercrownlite
+    availability:
+      - RUNTIME
+
+  - variable: NEXTAUTH_URL
+    value: https://supercrownlite.web.app
+    availability:
+      - BUILD
+      - RUNTIME
+
+  # Secrets — se agregan desde Firebase Console → App Hosting → Secrets
+  # Los siguientes valores los vas a ingresar como secretos en la consola:
+  #   DATABASE_URL
+  #   NEXTAUTH_SECRET
+  #   FIREBASE_CLIENT_EMAIL
+  #   FIREBASE_PRIVATE_KEY
+  #   RESEND_API_KEY
+  #   ADMIN_EMAIL
